@@ -242,6 +242,15 @@ annotate_thread_changed (void)
 }
 
 void
+annotate_thread_exit (struct thread_info *t, int silent)
+{
+  if (annotation_level > 1)
+    {
+      printf_unfiltered (("\n\032\032thread-exit\n"));
+    }
+}
+
+void
 annotate_field_begin (struct type *type)
 {
   if (annotation_level == 2)
@@ -595,4 +604,5 @@ _initialize_annotate (void)
   gdb::observers::breakpoint_created.attach (breakpoint_changed);
   gdb::observers::breakpoint_deleted.attach (breakpoint_changed);
   gdb::observers::breakpoint_modified.attach (breakpoint_changed);
+  gdb::observers::thread_exit.attach (annotate_thread_exit);
 }
